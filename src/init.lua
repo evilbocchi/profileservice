@@ -222,7 +222,18 @@ local SETTINGS = {
 	
 }
 
-local Madwork -- Standalone Madwork reference for portable version of ProfileService
+----- Constants -----
+
+local DataStoreService = game:GetService("DataStoreService")
+local RunService = game:GetService("RunService")
+local PlaceId = game.PlaceId
+local JobId = game.JobId
+local IsStudio = RunService:IsStudio()
+local IsServer = RunService:IsServer()
+
+----- Standalone Madwork reference for portable version of ProfileService -----
+
+local Madwork
 do
 
 	local MadworkScriptSignal = {}
@@ -365,8 +376,7 @@ do
 	Madwork = {
 		NewScriptSignal = MadworkScriptSignal.NewScriptSignal,
 		ConnectToOnClose = function(task, run_in_studio_mode)
-            local RunService = game:GetService("RunService")
-			if RunService:IsServer() and (RunService:IsStudio() == false or run_in_studio_mode == true) then
+			if IsServer and (IsStudio == false or run_in_studio_mode == true) then
 				game:BindToClose(task)
 			end
 		end,
@@ -448,12 +458,6 @@ local ActiveProfileStores = ProfileService._active_profile_stores
 local AutoSaveList = ProfileService._auto_save_list
 local IssueQueue = ProfileService._issue_queue
 
-local DataStoreService = game:GetService("DataStoreService")
-local RunService = game:GetService("RunService")
-
-local PlaceId = game.PlaceId
-local JobId = game.JobId
-
 local AutoSaveIndex = 1 -- Next profile to auto save
 local LastAutoSave = os.clock()
 
@@ -464,7 +468,6 @@ local ActiveProfileSaveJobs = 0 -- Number of active threads that are saving prof
 
 local CriticalStateStart = 0 -- os.clock()
 
-local IsStudio = RunService:IsStudio()
 local IsLiveCheckActive = false
 
 local UseMockDataStore = false
@@ -2303,9 +2306,13 @@ if IsStudio == true then
 
 			UseMockDataStore = true
 			ProfileService._use_mock_data_store = true
-			print("[ProfileService]: Roblox API services unavailable - data will not be saved")
+            if IsServer then
+                print("[ProfileService]: Roblox API services unavailable - data will not be saved")
+            end
 		else
-			print("[ProfileService]: Roblox API services available - data will be saved")
+            if IsServer then
+                print("[ProfileService]: Roblox API services available - data will be saved")
+            end
 		end
 		IsLiveCheckActive = false
 	end)

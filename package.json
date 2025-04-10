@@ -1,6 +1,6 @@
 {
   "name": "@antivivi/profileservice",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Roblox-ts typings for loleris's ProfileService",
   "main": "src/init.lua",
   "types": "index.d.ts",
@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rbxtsc"
+    "build": "rbxtsc",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
