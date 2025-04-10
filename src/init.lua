@@ -365,7 +365,8 @@ do
 	Madwork = {
 		NewScriptSignal = MadworkScriptSignal.NewScriptSignal,
 		ConnectToOnClose = function(task, run_in_studio_mode)
-			if game:GetService("RunService"):IsStudio() == false or run_in_studio_mode == true then
+            local RunService = game:GetService("RunService")
+			if RunService:IsServer() and (RunService:IsStudio() == false or run_in_studio_mode == true) then
 				game:BindToClose(task)
 			end
 		end,
