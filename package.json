@@ -1,6 +1,6 @@
 {
   "name": "@antivivi/profileservice",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "Roblox-ts typings for loleris's ProfileService",
   "main": "src/init.lua",
   "types": "index.d.ts",
